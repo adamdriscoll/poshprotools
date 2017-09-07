@@ -55,7 +55,10 @@ Start-Dashboard -Content {
                 New-Row {
                     New-Column -Size 12 -Content {
                         New-Chart -Title "Disk Space by Drive" -Type Bar -AutoRefresh -Endpoint {
-                            Get-CimInstance -ClassName Win32_LogicalDisk | ForEach-Object { [PSCustomObject]@{ DeviceId = $_.DeviceID; Size = [Math]::Round($_.Size / 1GB, 2); FreeSpace = [Math]::Round($_.FreeSpace / 1GB, 2); } } | Out-ChartData -LabelProperty "DeviceID" -Dataset @(
+                            Get-CimInstance -ClassName Win32_LogicalDisk | ForEach-Object { 
+                                    [PSCustomObject]@{ DeviceId = $_.DeviceID; 
+                                                       Size = [Math]::Round($_.Size / 1GB, 2); 
+                                                       FreeSpace = [Math]::Round($_.FreeSpace / 1GB, 2); } } | Out-ChartData -LabelProperty "DeviceID" -Dataset @(
                                 New-ChartDataset -DataProperty "Size" -Label "Size" -BackgroundColor "#80962F23" -HoverBackgroundColor "#80962F23"
                                 New-ChartDataset -DataProperty "FreeSpace" -Label "Free Space" -BackgroundColor "#8014558C" -HoverBackgroundColor "#8014558C"
                             )
@@ -67,24 +70,24 @@ Start-Dashboard -Content {
                 New-Row {
                     New-Column -Size 6 -Content { 
                         New-Monitor -Title "CPU (% processor time)" -Type Line -DataPointHistory 20 -RefreshInterval 5 -BackgroundColor '#80FF6B63' -BorderColor '#FFFF6B63'  -Endpoint {
-                            Get-Counter '\Processor(_Total)\% Processor Time' | Select-Object -ExpandProperty CounterSamples | Select-Object -ExpandProperty CookedValue | Out-MonitorData
+                            Get-Counter '\Processor(_Total)\% Processor Time' -ErrorAction SilentlyContinue | Select-Object -ExpandProperty CounterSamples | Select-Object -ExpandProperty CookedValue | Out-MonitorData
                         } 
                     }
                     New-Column -Size 6 -Content { 
                         New-Monitor -Title "Memory (% in use)" -Type Line -DataPointHistory 20 -RefreshInterval 5 -BackgroundColor '#8028E842' -BorderColor '#FF28E842'  -Endpoint {
-                            Get-Counter '\memory\% committed bytes in use' | Select-Object -ExpandProperty CounterSamples | Select-Object -ExpandProperty CookedValue | Out-MonitorData
+                            Get-Counter '\memory\% committed bytes in use' -ErrorAction SilentlyContinue | Select-Object -ExpandProperty CounterSamples | Select-Object -ExpandProperty CookedValue | Out-MonitorData
                         } 
                     }
                 }
                 New-Row {
                     New-Column -Size 6 -Content { 
                         New-Monitor -Title "Network (IO Read Bytes/sec)" -Type Line -DataPointHistory 20 -RefreshInterval 5 -BackgroundColor '#80E8611D' -BorderColor '#FFE8611D'  -Endpoint {
-                            Get-Counter '\Process(_Total)\IO Read Bytes/sec' | Select-Object -ExpandProperty CounterSamples | Select-Object -ExpandProperty CookedValue | Out-MonitorData
+                            Get-Counter '\Process(_Total)\IO Read Bytes/sec' -ErrorAction SilentlyContinue | Select-Object -ExpandProperty CounterSamples | Select-Object -ExpandProperty CookedValue | Out-MonitorData
                         } 
                     }
                     New-Column -Size 6 -Content { 
                         New-Monitor -Title "Disk (% disk time)" -Type Line -DataPointHistory 20 -RefreshInterval 5 -BackgroundColor '#80E8611D' -BorderColor '#FFE8611D'  -Endpoint {
-                            Get-Counter '\physicaldisk(_total)\% disk time' | Select-Object -ExpandProperty CounterSamples | Select-Object -ExpandProperty CookedValue | Out-MonitorData
+                            Get-Counter '\physicaldisk(_total)\% disk time' -ErrorAction SilentlyContinue | Select-Object -ExpandProperty CounterSamples | Select-Object -ExpandProperty CookedValue | Out-MonitorData
                         } 
                     }
                 }
