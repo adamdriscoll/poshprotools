@@ -69,7 +69,7 @@ Start-Dashboard -Content {
             New-Column -Size 6 -Content {
                 New-Row {
                     New-Column -Size 6 -Content { 
-                        New-Monitor -Title "CPU (% processor time)" -Type Line -DataPointHistory 20 -RefreshInterval 5 -BackgroundColor '#80FF6B63' -BorderColor '#FFFF6B63'  -Endpoint {
+                        New-Monitor -Title "CPU (% processor time)" -Type Line -DataPointHistory 20 -RefreshInterval 5 -ChartBackgroundColor '#80FF6B63' -ChartBorderColor '#FFFF6B63'  -Endpoint {
 						    try {
 								Get-Counter '\Processor(_Total)\% Processor Time' -ErrorAction SilentlyContinue | Select-Object -ExpandProperty CounterSamples | Select-Object -ExpandProperty CookedValue | Out-MonitorData
 							}
@@ -79,7 +79,7 @@ Start-Dashboard -Content {
                         } 
                     }
                     New-Column -Size 6 -Content { 
-                        New-Monitor -Title "Memory (% in use)" -Type Line -DataPointHistory 20 -RefreshInterval 5 -BackgroundColor '#8028E842' -BorderColor '#FF28E842'  -Endpoint {
+                        New-Monitor -Title "Memory (% in use)" -Type Line -DataPointHistory 20 -RefreshInterval 5 -ChartBackgroundColor '#8028E842' -ChartBorderColor '#FF28E842'  -Endpoint {
 							try {
 								Get-Counter '\memory\% committed bytes in use' -ErrorAction SilentlyContinue | Select-Object -ExpandProperty CounterSamples | Select-Object -ExpandProperty CookedValue | Out-MonitorData
 							}
@@ -91,7 +91,7 @@ Start-Dashboard -Content {
                 }
                 New-Row {
                     New-Column -Size 6 -Content { 
-                        New-Monitor -Title "Network (IO Read Bytes/sec)" -Type Line -DataPointHistory 20 -RefreshInterval 5 -BackgroundColor '#80E8611D' -BorderColor '#FFE8611D'  -Endpoint {
+                        New-Monitor -Title "Network (IO Read Bytes/sec)" -Type Line -DataPointHistory 20 -RefreshInterval 5 -ChartBackgroundColor '#80E8611D' -ChartBorderColor '#FFE8611D'  -Endpoint {
 							try {
 								Get-Counter '\Process(_Total)\IO Read Bytes/sec' -ErrorAction SilentlyContinue | Select-Object -ExpandProperty CounterSamples | Select-Object -ExpandProperty CookedValue | Out-MonitorData
 							}
@@ -101,7 +101,7 @@ Start-Dashboard -Content {
                         } 
                     }
                     New-Column -Size 6 -Content { 
-                        New-Monitor -Title "Disk (% disk time)" -Type Line -DataPointHistory 20 -RefreshInterval 5 -BackgroundColor '#80E8611D' -BorderColor '#FFE8611D'  -Endpoint {
+                        New-Monitor -Title "Disk (% disk time)" -Type Line -DataPointHistory 20 -RefreshInterval 5 -ChartBackgroundColor '#80E8611D' -ChartBorderColor '#FFE8611D'  -Endpoint {
 							try {
 								Get-Counter '\physicaldisk(_total)\% disk time' -ErrorAction SilentlyContinue | Select-Object -ExpandProperty CounterSamples | Select-Object -ExpandProperty CookedValue | Out-MonitorData
 							}
