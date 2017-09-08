@@ -13,7 +13,7 @@ Tools for developing PowerShell GUIs, script packaging and code conversion. For 
 ### Visual Studio Code Features
 - Commands for bundling and packaging
 
-### Universal Dashboard
+### Universal Dashboard - [Live Preview](http://universaldashboard.azurewebsites.net/)
 - PowerShell module to develop cross-platform, web-based dashboards
 - Runs anywhere PowerShell Core and Windows PowerShell are available 
 - Simple syntax to generate client and server side code
