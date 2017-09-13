@@ -56,6 +56,6 @@ Start-Dashboard -Content {
             }
         }
     }
-} -Port 10000
+} -Wait
 
  
