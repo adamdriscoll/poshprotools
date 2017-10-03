@@ -417,7 +417,7 @@ $HomePage = New-Page -Name "Home" -Icon home -Content {
         New-Column -Size 4 {
             New-Row {
                 New-Column -Size 12 {
-                    New-Card @Colors -Title "Written in PowerShell" -Text "Develop both the front-end interface and backend endpoints in the same PowerShell script. Host dashboards right from the console or in Azure\IIS."  -Links @(New-Link -Text "View this dashboard's PowerShell Script" -Url "https://github.com/adamdriscoll/poshprotools/blob/master/examples/universal-dashboard/azure-dashboard.ps1")
+                    New-Card @Colors -Title "Written in PowerShell" -Text "Develop both the front-end interface and backend endpoints in the same PowerShell script. Host dashboards right from the console or in Azure\IIS."  -Links @(New-Link -Text "View this dashboard's PowerShell Script" -Url "https://github.com/adamdriscoll/poshprotools/blob/master/examples/universal-dashboard/poshud.ps1")
                 }
             }
             New-Row {
