@@ -1,0 +1,59 @@
+﻿<Window
+
+  xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+
+  xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+
+  Title="VSTeam Explorer" Height="350" Width="800" >
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="100"  />
+            <RowDefinition Height="10*" />
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="150"  />
+            <ColumnDefinition Width="*"  />
+        </Grid.ColumnDefinitions>
+
+        <Grid Grid.ColumnSpan="2" Background="#FF232323">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="40"  />
+                <RowDefinition Height="40" />
+                <RowDefinition Height="10*" />
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="150"  />
+                <ColumnDefinition Width="100"  />
+                <ColumnDefinition Width="*"  />
+            </Grid.ColumnDefinitions>
+
+            <Label Content="Personal Access Token" HorizontalAlignment="Center"  VerticalAlignment="Center" Foreground="White" />
+            <PasswordBox x:Name="txtPat" Grid.Column="1" HorizontalAlignment="Center"  VerticalAlignment="Center" Width="100"  />
+
+            <Label Content="Account" Grid.Row="1"  HorizontalAlignment="Center"  VerticalAlignment="Center" Foreground="White"/>
+            <TextBox x:Name="txtAccount"  Grid.Column="1" Grid.Row="1" HorizontalAlignment="Center"  VerticalAlignment="Center" Width="100"/>
+
+            <Button x:Name="btnLogin"  Grid.Column="2" Grid.Row="1"  Content="Login" HorizontalAlignment="Left" VerticalAlignment="Center" Width="75" Click="btnLogin_Click" Margin="10,0,0,0"/>
+
+        </Grid>
+
+        <Grid Grid.Row="1" Grid.ColumnSpan="2" >
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="150"  />
+                <ColumnDefinition Width="*"  />
+            </Grid.ColumnDefinitions>
+
+            <ListBox x:Name="lstFeatures" IsEnabled="False"  >
+                <ListBoxItem x:Name="itemTeamInfo"  Content="Team Info" Selected="teamInfoSelected"></ListBoxItem>
+                <ListBoxItem x:Name="itemProjects" Content="Projects" Selected="projectsSelected"></ListBoxItem>
+            </ListBox>
+
+            <TextBox x:Name="txtOutput" Grid.Column="2" FontFamily="Consolas" />
+        </Grid>
+
+
+
+    </Grid>
+
+</Window>
