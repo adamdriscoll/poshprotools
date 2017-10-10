@@ -485,4 +485,4 @@ Start-UDDashboard -Content {
         $Components,
         $Formatting
     ) 
-} -Port 10001 -AutoReload
+} -Port 10001 -Wait
