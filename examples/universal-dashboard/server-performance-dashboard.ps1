@@ -17,7 +17,7 @@ Start-UdDashboard -Content {
                 New-UdRow {
                     New-UdColumn -Size 3 -Content {
                         New-UdChart -Title "Memory by Process" -Type Doughnut -RefreshInterval 5 -Endpoint {
-                            Get-Process | ForEach-Object { [PSCustomObject]@{ Name = $_.Name; WorkingSet = [Math]::Round($_.WorkingSet / 1MB, 2) }} |  Out-ChartData -DataProperty "WorkingSet" -LabelProperty Name
+                            Get-Process | ForEach-Object { [PSCustomObject]@{ Name = $_.Name; WorkingSet = [Math]::Round($_.WorkingSet / 1MB, 2) }} |  Out-UDChartData -DataProperty "WorkingSet" -LabelProperty Name
                         } -Options @{
                             legend = @{
                                 display = $false
