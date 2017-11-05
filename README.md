@@ -1,6 +1,6 @@
 ![PoshToolsLogo](https://poshtools.com/wp-content/uploads/2017/04/PoshToolsLogo-2.png)
 
-+[![Join the chat at https://gitter.im/dotnet/coreclr](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/ironmansoftware?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
+[![Join the chat at https://gitter.im/dotnet/coreclr](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/ironmansoftware?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 
 Tools for developing PowerShell GUIs, script packaging and code conversion. For more information, visit [PowerShell Pro Tools](https://poshtools.com/powershell-pro-tools-for-visual-studio/). 
 
@@ -19,6 +19,7 @@ Tools for developing PowerShell GUIs, script packaging and code conversion. For 
 - PowerShell module to develop cross-platform, web-based dashboards
 - Runs anywhere PowerShell Core and Windows PowerShell are available 
 - Simple syntax to generate client and server side code
+- Generate REST APIs with only PowerShell
 
 
 
