@@ -20,7 +20,7 @@ $entry = New-UDPage -Url "/entry/:id" -Endpoint {
 }
 
 $HomePage = New-UDPage -Name "Home" -Content {
-    New-UDCard -Title "About PoshCore.org Archive" -Text "This dashboard allows you to enter a PoshCode.org document ID and view the contents of it. Enter a value between 1000 and 4198." -Links @(
+    New-UDCard -Title "About PoshCode.org Archive" -Text "This dashboard allows you to enter a PoshCode.org document ID and view the contents of it. Enter a value between 1000 and 4198." -Links @(
         New-UDLink -Text "Visit on GitHub" -Url "https://github.com/PoshCode/poshcode.github.io/"
         
     )
