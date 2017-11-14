@@ -40,7 +40,7 @@ $HomePage = New-UDPage -Name "Home" -Content {
     }
 }
 
-$Dashboard = New-UDDashboard -Title "PoshCore.org Archive" -Pages @(
+$Dashboard = New-UDDashboard -Title "PoshCode.org Archive" -Pages @(
     $HomePage,
     $entry
     $Page
