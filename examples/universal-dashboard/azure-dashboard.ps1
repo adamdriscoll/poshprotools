@@ -1,6 +1,3 @@
-if ($i -eq $null){$i = 8080}
-$i++
-
 $Colors = @{
     BackgroundColor = "#FF252525"
     FontColor = "#FFFFFFFF"
@@ -9,7 +6,7 @@ $Colors = @{
 $NavBarLinks = @((New-UDLink -Text "<i class='material-icons' style='display:inline;padding-right:5px'>favorite_border</i> PowerShell Pro Tools" -Url "https://poshtools.com/buy-powershell-pro-tools/"),
                  (New-UDLink -Text "<i class='material-icons' style='display:inline;padding-right:5px'>description</i> Documentation" -Url "https://adamdriscoll.gitbooks.io/powershell-tools-documentation/content/powershell-pro-tools-documentation/about-universal-dashboard.html"))
 
-Start-UDDashboard -port $i -Content { 
+Start-UDDashboard -Wait -Content { 
     New-UDDashboard -NavbarLinks $NavBarLinks -Title "PowerShell Pro Tools Universal Dashboard" -NavBarColor '#FF1c1c1c' -NavBarFontColor "#FF55b3ff" -BackgroundColor "#FF333333" -FontColor "#FFFFFFF" -Content { 
         New-UDRow {
             New-UDColumn -Size 3 {
@@ -61,5 +58,5 @@ Start-UDDashboard -port $i -Content {
     }
 } 
 
-Start-Process http://localhost:$i
+Start-Process http://localhost
  
