@@ -1,3 +1,7 @@
+<#
+    Provides an example of customizing the legend.
+#>
+
 Import-Module UniversalDashboard
 
 $Data = @(

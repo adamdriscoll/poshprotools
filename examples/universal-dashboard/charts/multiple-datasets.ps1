@@ -1,3 +1,7 @@
+<#
+    Provies an example of creating a chart with multiple datasets.
+#>
+
 Import-Module UniversalDashboard
 
 $Data = @(

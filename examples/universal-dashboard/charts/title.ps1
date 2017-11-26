@@ -1,3 +1,7 @@
+<#
+    Provides an example of customizing a chart's title.
+#>
+
 Import-Module UniversalDashboard
 
 $Data = @(

@@ -1,3 +1,6 @@
+<#
+    Provides an example of a simple grid.
+#>
 Import-Module UniversalDashboard
 
 $Data = @(

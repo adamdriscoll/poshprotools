@@ -1,3 +1,7 @@
+<#
+    Provides an example of creating a custom axis with a minimum and maximum value for the axis.
+#>
+
 Import-Module UniversalDashboard
 
 $Data = @(

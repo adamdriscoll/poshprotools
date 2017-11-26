@@ -1,3 +1,7 @@
+<#
+    Provides an example of overriding the default filtering, sort and paging mechanism by querying SQL.
+#>
+
 Import-Module UniversalDashboard
 
 $Dashboard = New-UDDashboard -Title "Grids - Simple" -Content {
@@ -20,4 +24,4 @@ $Dashboard = New-UDDashboard -Title "Grids - Simple" -Content {
     }
 }
 
-Start-UDDashboard -Dashboard $Dashboard -Port 8080
+Start-UDDashboard -Dashboard $Dashboard -Port 8080  

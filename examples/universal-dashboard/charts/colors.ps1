@@ -1,3 +1,7 @@
+<#
+    Provides an example of working with colors in charts.
+#>
+
 Import-Module UniversalDashboard
 
 $Data = @(

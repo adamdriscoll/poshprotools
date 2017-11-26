@@ -1,3 +1,7 @@
+<#
+    Provides an example of configuring a chart's tooltips.
+#>
+
 Import-Module UniversalDashboard
 
 $Data = @(

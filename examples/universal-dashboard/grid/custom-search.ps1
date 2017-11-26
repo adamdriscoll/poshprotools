@@ -1,3 +1,6 @@
+<#
+    Provides an example of creating a grid with a custom filtering algorithm.
+#>
 Import-Module UniversalDashboard
 
 $Data = @(
