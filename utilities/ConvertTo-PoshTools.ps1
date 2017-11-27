@@ -37,14 +37,30 @@ function Out-ObjectProperty {
 
         $PropertyType = Get-PropertyType -TypeName $Node.type -PropertyName $property.name
 
-        if ($propertyType.IsBool) {
+        if ($propertyType.Name -eq "Boolean") {
             $value = "`$$($property.innerText)"
         }
-        elseif ($propertyType.IsValueType -and -not $propertyType.IsEnum) {
-            $value = "$($property.innerText)"
+        elseif ($propertyType.Name -eq "String") {
+            $value = "'$($property.innerText)'"
+        }
+        elseif ($propertyType.FullName -eq "System.Drawing.Font") {
+            $parts = $property.InnerText.Split(",")
+
+            $value =  "New-Object -TypeName '$($PropertyType.FullName)' -ArgumentList @('$($parts[0])', $($parts[1].Trim('pt')))"
+        }
+        elseif ($propertyType.FullName -eq "System.Drawing.Color") {
+            $value =  "[System.Drawing.Color]::FromArgb($($property.InnerText))"
         }
         elseif ($propertyType.IsEnum) {
-            $value = ($property.innerText -split ',' | ForEach-Object { "[$($propertyType.Name)]::$($_.Trim())" }) -join ','
+            $value = ($property.innerText -split ',' | ForEach-Object { "[$($propertyType.FullName)]::$($_.Trim())" }) -join ' -bor '
+        }
+        elseif (-not $PropertyType.IsPrimitive) {
+            $value = "New-Object -TypeName '$($PropertyType.FullName)' -ArgumentList @($($property.innerText))"
+        } elseif ($PropertyType.IsPrimitive) {
+            $value = $Property.innerText
+        }   
+
+        if ($PropertyType.IsArray) {
             $value = "@($value)"
         }
 
