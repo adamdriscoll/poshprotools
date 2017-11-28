@@ -97,8 +97,13 @@ function Out-ObjectProperty {
             $value =  "New-Object -TypeName '$($PropertyType.FullName)' -ArgumentList @('$($parts[0])', $($parts[1].Trim('pt')))"
         }
         elseif ($propertyType.FullName -eq "System.Drawing.Color") {
-            $color =  "[System.Drawing.Color]::$($property.InnerText)"
-            $value =  "[System.Drawing.Color]::FromArgb($color.ToArgb())"
+            If ([System.Drawing.SystemColors]::$($Property.InnerText)){
+                $value =  "[System.Drawing.SystemColors]::$($property.InnerText)"
+            } elseif ([System.Drawing.Color]::$($Property.InnerText)){
+                $value =  "[System.Drawing.Color]::$($property.InnerText)"
+            } else {
+                $value =  "[System.Drawing.Color]::FromArgb($($Property.InnerText))"
+            }
         }
         elseif ($propertyType.IsEnum) {
             $value = ($property.innerText -split ',' | ForEach-Object { "[$($propertyType.FullName)]::$($_.Trim())" }) -join ' -bor '
