@@ -97,7 +97,8 @@ function Out-ObjectProperty {
             $value =  "New-Object -TypeName '$($PropertyType.FullName)' -ArgumentList @('$($parts[0])', $($parts[1].Trim('pt')))"
         }
         elseif ($propertyType.FullName -eq "System.Drawing.Color") {
-            $value =  "[System.Drawing.Color]::FromArgb($($property.InnerText))"
+            $color =  "[System.Drawing.Color]::$($property.InnerText)"
+            $value =  "[System.Drawing.Color]::FromArgb($color.ToArgb())"
         }
         elseif ($propertyType.IsEnum) {
             $value = ($property.innerText -split ',' | ForEach-Object { "[$($propertyType.FullName)]::$($_.Trim())" }) -join ' -bor '
@@ -207,7 +208,7 @@ $Script | Out-File -FilePath (Join-Path $OutputPath ($fi.Name + ".ps1" ))
 
 Write-Host "Conversion complete: `r`n You need to update your PSSProj by adding the following to the contents via a text editor:"
 Write-Host "<ItemGroup>
-<Compile Include=`"$($fi.Name).designer.ps1')`">
+<Compile Include=`"$($fi.Name).designer.ps1`">
     <SubType>Code</SubType>
     <DependentUpon>$($fi.Name + ".ps1")</DependentUpon>
 </Compile>
