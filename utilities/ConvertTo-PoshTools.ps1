@@ -1,22 +1,67 @@
-param($FilePath = 'C:\users\adam\Desktop\test.psf', $OutputPath = '.\test.ps1')
+param(
+[Parameter(Mandatory = $true, HelpMessage = "The path to the PSF file you want to convert.")]    
+$FilePath,
+[Parameter(HelpMessage = "The path to the folder where you would like the converted items to go.")] 
+$OutputPath = '.\')
 <#
     --- WORK IN PROGRESS ---
     Converts a PowerShell Studio PSF file into a PowerShell script suitable for PowerShell Pro Tools for Visual Studio. 
+
+    After converting the PSF file, you need to add the PS1 and Designer.PS1 file to a PowerShell Project. 
+
+    This is currently a manual process. Open the PSSProj in your favorite text editor. 
+
+    In an ItemGroup node within the PSSProj, add the form scripts in the following format:
+
+      <ItemGroup>
+        <Compile Include="test.psf.designer.ps1">
+            <SubType>Code</SubType>
+            <DependentUpon>test.psf.ps1</DependentUpon>
+        </Compile>
+        <Compile Include="test.psf.ps1">
+            <SubType>Form</SubType>
+        </Compile>
+    </ItemGroup>
+
+    Make sure to replace the file name with your converted file.
 #>
 
+Add-Type -AssemblyName System.Windows.Forms
 
 if (-not (Test-Path $FilePath)) {
     throw "File not found."
 }
 
 function Out-ObjectVariable {
-    param($Node)
+    param($Node, $MainObject)
 
     foreach($childNode in $Node.Object) {
         Out-ObjectVariable $childNode
 
-        "`$$($childNode.name) = New-Object -TypeName '$($childNode.type)'"
+        if ($childNode.name -eq $MainObject.name)
+        {
+            continue
+        }
+
+        $type = $childNode.type.split(',')[0]
+        "[$type]`$$($childNode.name) = `$null"
     }
+}
+
+function Out-ObjectCreation {
+    param($Node, $MainObject)
+    
+        foreach($childNode in $Node.Object) {
+            Out-ObjectCreation $childNode
+
+            if ($childNode.name -eq $MainObject.name)
+            {
+                continue
+            }
+
+            $type = $childNode.type.split(',')[0]
+            "`$$($childNode.name) = (New-Object -TypeName '$type')"
+        }
 }
 
 function Get-PropertyType {
@@ -37,7 +82,10 @@ function Out-ObjectProperty {
 
         $PropertyType = Get-PropertyType -TypeName $Node.type -PropertyName $property.name
 
-        if ($propertyType.Name -eq "Boolean") {
+        if ($property.Reference -ne $null) {
+            $value = "`$$($property.Reference.name)"
+        }
+        elseif ($propertyType.Name -eq "Boolean") {
             $value = "`$$($property.innerText)"
         }
         elseif ($propertyType.Name -eq "String") {
@@ -111,27 +159,59 @@ function Out-Code {
 
     $Xml.File.Code.'#cdata-section'
 }
-function Out-LoadMainObject {
+
+function Get-MainObject {
     param($Xml)
 
-    $MainNode = $Xml.File.Object | Where type -eq "System.Windows.Forms.Form, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089"
+    $Xml.File.Object | Where type -eq "System.Windows.Forms.Form, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089"
+}
 
-    Out-ObjectChildObject $MainNode
+function Out-LoadMainObject {
+    param($Xml)
+    $MainNode = Get-MainObject $Xml
 
     "`$$($MainNode.name).ShowDialog()"
 }
 
+function Out-ObjectAddChildObjects {
+    param($Xml)
+
+    $MainNode = Get-MainObject $Xml
+    
+    Out-ObjectChildObject $MainNode
+}
+
 [xml]$Xml = Get-Content $FilePath
+
+$MainObject = Get-MainObject $xml
+
 $Script = Out-Assembly $Xml
-$Script += Out-ObjectVariable $Xml.File
-$Script += Out-Code $Xml 
+$Script += "`$$($MainObject.name) = New-Object -TypeName '$($MainObject.type.split(',')[0])'"
+$Script += Out-ObjectVariable $Xml.File $MainObject
+
+$Script += "function InitializeComponent {`r`n"
+$Script += Out-ObjectCreation $Xml.File $MainObject
+$Script += "`$$($MainObject.name).SuspendLayout()`r`n"
+
 $Script += Out-Object $Xml.File
+$Script += Out-ObjectAddChildObjects $Xml
+$Script += "`$$($MainObject.name).ResumeLayout(`$false) `r`n}`r`n. InitializeComponent"
+
+$fi = New-Object System.IO.FileInfo -ArgumentList $FilePath
+$Script | Out-File -FilePath (Join-Path $OutputPath ($fi.Name + ".designer.ps1" ))
+
+$Script = Out-Code $Xml 
+$Script += "`r`n. (Join-Path `$PSScriptRoot '$($fi.Name).designer.ps1')`r`n"
 $Script += Out-LoadMainObject $Xml
+$Script | Out-File -FilePath (Join-Path $OutputPath ($fi.Name + ".ps1" ))
 
-
-$Script | Out-File -FilePath $OutputPath
-
-
-
-
-
+Write-Host "Conversion complete: `r`n You need to update your PSSProj by adding the following to the contents via a text editor:"
+Write-Host "<ItemGroup>
+<Compile Include=`"$($fi.Name).designer.ps1')`">
+    <SubType>Code</SubType>
+    <DependentUpon>$($fi.Name + ".ps1")</DependentUpon>
+</Compile>
+<Compile Include=`"$($fi.Name + ".ps1")`">
+    <SubType>Form</SubType>
+</Compile>
+</ItemGroup>"
