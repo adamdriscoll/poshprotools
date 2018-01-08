@@ -20,8 +20,8 @@ $Dashboard = New-UDDashboard -Title "Grids - Simple" -Content {
         }
         $Result = Invoke-SqlCmd -Query "SELECT Animal, Order FROM animals WHERE Animal LIKE '%$filterText%' ORDER BY $sortColumn $sortOrder OFFSET ($skip) ROWS FETCH NEXT ($take) ROWS ONLY " 
 
-        $Result | Out-UDGridData -NoAutoFilter -NoAutoPage -NoAutoSort
-    }
+        $Result | Out-UDGridData 
+    } -ServerSideProcessing
 }
 
 Start-UDDashboard -Dashboard $Dashboard -Port 8080  
